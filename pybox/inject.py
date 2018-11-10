@@ -19,7 +19,7 @@ class InstanceIsRequiredException(Exception):
     pass
 
 
-class Inject:
+class InjectLazy:
     _dependency: Type[IService]
     _attribute_name: Optional[str]
 
@@ -41,5 +41,5 @@ class Inject:
         return instance.__dict__[self._attribute_name]
 
 
-def inject(dependency: Type[T]) -> T:
+def Inject(dependency: Type[T]) -> T:
     return Container().get(dependency)
