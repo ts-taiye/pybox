@@ -1,4 +1,4 @@
-from typing import Type, TypeVar
+from typing import Type, TypeVar, Optional
 
 __all__ = (
     'Singleton',
@@ -10,11 +10,15 @@ T = TypeVar('T')
 
 
 class Singleton:
+
+    _class_object: Type[T]
+    _instance = Optional[T]
+
     def __init__(self, class_object: Type[T]) -> None:
-        self.class_object = class_object
-        self.instance = None
+        self._class_object = class_object
+        self._instance = None
 
     def __call__(self, *args, **kwargs) -> T:
-        if self.instance is None:
-            self.instance = self.class_object(*args, **kwargs)
-        return self.instance
+        if self._instance is None:
+            self._instance = self._class_object(*args, **kwargs)
+        return self._instance
