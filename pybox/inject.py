@@ -19,7 +19,7 @@ class InstanceIsRequiredException(Exception):
 
 
 class Inject:
-    _dependency: str
+    _dependency: Type[IService]
     _attribute_name: Optional[str]
 
     def __init__(self, dependency: Type[IService]):
