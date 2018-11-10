@@ -36,5 +36,5 @@ class Inject:
         if instance is None:
             raise InstanceIsRequiredException()
         if self._attribute_name not in instance.__dict__:
-            instance.__dict__[self._attribute_name] = Container.get(self._dependency)
+            instance.__dict__[self._attribute_name] = Container().get(self._dependency)
         return instance.__dict__[self._attribute_name]

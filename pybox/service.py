@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from enum import Enum, unique
 from typing import Dict, Optional, Type
 
-from pybox.utils import singleton
+from pybox.utils import Singleton
 
 __all__ = (
     'Container',
@@ -27,7 +27,7 @@ class ServiceMode(Enum):
 class IService:
     def __init_subclass__(cls, **kwargs):
         super().__init_subclass__(**kwargs)
-        Container.register(cls)
+        Container().register(cls)
 
     @classmethod
     def service_mode(self) -> ServiceMode:
@@ -98,7 +98,7 @@ class ServiceIsNotFoundException(Exception):
     pass
 
 
-@singleton
+@Singleton
 class Container:
     _storage: Dict[Type[IService], ServiceMeta]
 
