@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum, unique
-from typing import Dict, Optional, Type
+from importlib import import_module
+from typing import Dict, Optional, Type, Union
 
 from pybox.utils import Singleton
 
@@ -105,13 +106,22 @@ class Container:
     def __init__(self):
         self._storage = {}
 
+    @staticmethod
+    def _import(path):
+        last_dot = path.rfind('.')
+        module = import_module(path[:last_dot])
+        return getattr(module, path[last_dot + 1:])
+
     def register(self, service: Type[IService]):
         if service in self._storage:
             raise ServiceIsAlreadyRegisteredException()
 
         self._storage[service] = ServiceMeta(service)
 
-    def get(self, service: Type[IService]) -> IService:
+    def get(self, service: Union[str, Type[IService]]) -> IService:
+        if isinstance(service, str):
+            service = self._import(service)
+
         try:
             service = self._storage[service]
         except KeyError:

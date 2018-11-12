@@ -2,7 +2,7 @@ from typing import Type, TypeVar, Optional
 
 __all__ = (
     'Singleton',
-    'T'
+    'T',
 )
 
 
