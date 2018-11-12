@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum, unique
 from importlib import import_module
-from typing import Dict, Optional, Type, Union
+from typing import Dict, Optional, Type
 
 from pybox.utils import Singleton
 
@@ -31,7 +31,7 @@ class IService:
         Container().register(cls)
 
     @classmethod
-    def service_mode(self) -> ServiceMode:
+    def service_mode(cls) -> ServiceMode:
         return ServiceMode.SINGLETON
 
 
@@ -118,10 +118,10 @@ class Container:
 
         self._storage[service] = ServiceMeta(service)
 
-    def get(self, service: Union[str, Type[IService]]) -> IService:
-        if isinstance(service, str):
-            service = self._import(service)
+    def get_from_string(self, service: str) -> IService:
+        return self.get(self._import(service))
 
+    def get(self, service: Type[IService]) -> IService:
         try:
             service = self._storage[service]
         except KeyError:
