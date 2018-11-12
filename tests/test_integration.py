@@ -1,4 +1,4 @@
-from pybox.inject import Inject, InjectLazy
+from pybox.inject import Inject
 from pybox.service import IService, ServiceMode
 
 
@@ -11,7 +11,7 @@ class FactoryService(IService):
     singleton = Inject(SingletonService)
 
     @classmethod
-    def service_mode(self):
+    def service_mode(cls):
         return ServiceMode.FACTORY
 
     def who_am_i(self):
@@ -20,9 +20,9 @@ class FactoryService(IService):
 
 class A:
     singleton1 = Inject(SingletonService)
-    singleton2 = InjectLazy(SingletonService)
+    singleton2 = Inject(SingletonService)
     factory1 = Inject(FactoryService)
-    factory2 = InjectLazy(FactoryService)
+    factory2 = Inject(FactoryService)
 
     def who_am_i(self):
         print(f'A {id(self)}')
