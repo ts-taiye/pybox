@@ -21,7 +21,7 @@ class InstanceIsRequiredException(Exception):
     pass
 
 
-class BaseInject:
+class BaseInject(ABC):
     _attribute_name: Optional[str]
 
     def __init__(self):
